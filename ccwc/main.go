@@ -104,41 +104,46 @@ func countFrom(reader io.Reader) (int, int, int, int, error) {
 		bytes int
 	)
 
-	// input reader -> pipe 1 writer -> pipe 1 reader -> pipe 2 writer -> pipe 2 reader
-	// 			   \-> read and count lines       \-> read and count words
-	cpr, cpw := io.Pipe()
-	ltee := io.TeeReader(reader, cpw)
-
-	wpr, wpw := io.Pipe()
-	ctee := io.TeeReader(cpr, wpw)
-
-	mpr, mpw := io.Pipe()
-	wtee := io.TeeReader(wpr, mpw)
+	pr1, pw1 := io.Pipe()
+	pr2, pw2 := io.Pipe()
+	pr3, pw3 := io.Pipe()
+	pr4, pw4 := io.Pipe()
 
 	var wg sync.WaitGroup
-	wg.Add(4)
+	wg.Add(5)
 
+	writer := io.MultiWriter(pw1, pw2, pw3, pw4)
 	go func() {
 		defer wg.Done()
-		defer cpw.Close()
-		count("l", ltee, &lines)
+		defer pw1.Close()
+		defer pw2.Close()
+		defer pw3.Close()
+		defer pw4.Close()
+		io.Copy(writer, reader)
 	}()
 
 	go func() {
 		defer wg.Done()
-		defer wpw.Close()
-		count("w", ctee, &words)
+		defer pw1.Close()
+		count("l", pr1, &lines)
 	}()
 
 	go func() {
 		defer wg.Done()
-		defer mpw.Close()
-		count("c", wtee, &bytes)
+		defer pw2.Close()
+		count("w", pr2, &words)
 	}()
 
 	go func() {
 		defer wg.Done()
-		count("m", mpr, &chars)
+		defer pw3.Close()
+		count("c", pr3, &bytes)
+	}()
+
+	go func() {
+		defer wg.Done()
+		defer pw4.Close()
+		count("m", pr4, &chars)
 	}()
 
 	wg.Wait()
