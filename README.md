@@ -1,4 +1,5 @@
 # Coding Challenges
+[![Unit Tests](https://github.com/jawahars16/john-crickett-coding-challenges/actions/workflows/test.yml/badge.svg)](https://github.com/jawahars16/john-crickett-coding-challenges/actions/workflows/test.yml)
 
 This repo contains series of solutions for code challenges published by John Crickett in Linkedin [newsletter](https://www.linkedin.com/newsletters/coding-challenges-7040206098607308801/).
 
