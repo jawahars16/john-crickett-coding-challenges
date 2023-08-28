@@ -10,24 +10,6 @@ import (
 	"sync"
 )
 
-var stream io.ReadWriteCloser
-
-func availableFlags() map[string]string {
-	return map[string]string{
-		"c": "Count bytes in the given file",
-		"w": "Count words in the given file",
-		"l": "Count lines in the given file",
-		"m": "Count characters in the given file",
-	}
-}
-
-func initializeFlags() {
-	for k, v := range availableFlags() {
-		flag.String(k, "", v)
-	}
-	flag.Parse()
-}
-
 func main() {
 	var (
 		reader io.Reader
@@ -175,4 +157,20 @@ func count(argument string, reader io.Reader, result *int) error {
 	}
 	*result = count
 	return nil
+}
+
+func availableFlags() map[string]string {
+	return map[string]string{
+		"c": "Count bytes in the given file",
+		"w": "Count words in the given file",
+		"l": "Count lines in the given file",
+		"m": "Count characters in the given file",
+	}
+}
+
+func initializeFlags() {
+	for k, v := range availableFlags() {
+		flag.String(k, "", v)
+	}
+	flag.Parse()
 }

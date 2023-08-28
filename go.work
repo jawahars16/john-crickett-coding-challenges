@@ -1,3 +1,5 @@
 go 1.21.0
 
-use ./ccwc
+use ./challenge-1
+
+use ./challenge-2
