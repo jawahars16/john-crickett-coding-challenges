@@ -13,5 +13,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.21
-      - name: Run tests
-        run: go test -v ./...
+      - name: Run tests challenge-1
+        run: go test -v ./challenge-1
+      - name: Run tests challenge-2
+        run: go test -v ./challenge-2
