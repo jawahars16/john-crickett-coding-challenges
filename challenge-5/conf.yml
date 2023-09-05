@@ -1,0 +1,9 @@
+port: 4000
+health:
+  interval: 2
+  url: /health
+backends:
+  - http://localhost:4001
+  - http://localhost:4004
+  - http://localhost:4002
+  - http://localhost:4003
