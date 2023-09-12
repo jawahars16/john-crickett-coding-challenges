@@ -17,3 +17,7 @@ jobs:
         run: go test -v ./challenge-1
       - name: Run tests challenge-2
         run: go test -v ./challenge-2
+      - name: Run tests challenge-4
+        run: go test -v ./challenge-4
+      - name: Run tests challenge-5
+        run: go test -v ./challenge-5
